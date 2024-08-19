@@ -1,11 +1,14 @@
-const Movie = require('./models/Movie');
+const Movie = require('../models/Movie');
+
+
 
 exports.getMovies = async (req, res) => {
     try {
         const movies = await Movie.find().populate('reviews');
         res.json(movies);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error(error); // Log the error
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
@@ -17,6 +20,7 @@ exports.createMovie = async (req, res) => {
         await newMovie.save();
         res.status(201).json(newMovie);
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error(error); // Log the error
+        res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

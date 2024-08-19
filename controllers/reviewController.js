@@ -1,5 +1,5 @@
 const Review = require('../models/Review');
-const Movie = require('./models/Movie');
+const Movie = require('../models/Movie');
 
 exports.createReview = async (req, res) => {
     const { movie, reviewerName, reviewText, rating } = req.body;
