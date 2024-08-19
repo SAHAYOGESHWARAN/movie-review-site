@@ -1,29 +1,27 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const movieRoutes = require('./routes/movieRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
-const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
+const port = process.env.PORT || 5000;
+
+// Middleware
 app.use(express.json());
 
-// Connect to MongoDB
+// Database connection
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB connected'))
-.catch(err => console.error(err));
+.catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/api/movies', movieRoutes);
-app.use('/api/reviews', reviewRoutes);
+app.get('/', (req, res) => {
+    res.send('Welcome to the Movie Review Site');
+});
 
-// Error handling middleware
-app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Start server
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
